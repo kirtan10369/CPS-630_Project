@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>OSP - Shopping</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
@@ -12,38 +14,41 @@
     <nav>
         <div class="logo"><img src="logo.png" alt="OSP Logo" class="logo-img"></div>
         <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="about.html">About Us</a></li>
-            <li><a href="signup.html">Sign Up</a></li>
-            <li><a href="signin.html">Sign In</a></li>
-            <li><a href="shopping.html">Shopping Cart</a></li>
-            <li><a href="#">Types of Services</a></li>
+            <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="about.html"><i class="fas fa-info-circle"></i> About Us</a></li>
+            <li><a href="signup.html"><i class="fas fa-user-plus"></i> Sign Up</a></li>
+            <li><a href="signin.html"><i class="fas fa-sign-in-alt"></i> Sign In</a></li>
+            <li><a href="shopping.html"><i class="fas fa-shopping-cart"></i> Shopping Cart</a></li>
+            <li><a href="#"><i class="fas fa-concierge-bell"></i> Types of Services</a></li>
         </ul>
     </nav>
     <div class="content">
-        <h1>Electronics Department</h1>
+        <h1><i class="fas fa-store"></i> Electronics Department</h1>
         <div class="items">
             <div class="item" data-id="1">
                 <img src="https://via.placeholder.com/100/FF5733/FFFFFF?text=Smartphone" alt="Smartphone">
-                Smartphone - $299
-                <button class="add-to-cart" data-id="1">Add to Cart</button>
+                <h3>Smartphone</h3>
+                <p>$299</p>
+                <button class="add-to-cart" data-id="1"><i class="fas fa-cart-plus"></i> Add to Cart</button>
             </div>
             <div class="item" data-id="2">
                 <img src="https://via.placeholder.com/100/33FF57/FFFFFF?text=Laptop" alt="Laptop">
-                Laptop - $799
-                <button class="add-to-cart" data-id="2">Add to Cart</button>
+                <h3>Laptop</h3>
+                <p>$799</p>
+                <button class="add-to-cart" data-id="2"><i class="fas fa-cart-plus"></i> Add to Cart</button>
             </div>
             <div class="item" data-id="3">
                 <img src="https://via.placeholder.com/100/5733FF/FFFFFF?text=Headphones" alt="Headphones">
-                Headphones - $99
-                <button class="add-to-cart" data-id="3">Add to Cart</button>
+                <h3>Headphones</h3>
+                <p>$99</p>
+                <button class="add-to-cart" data-id="3"><i class="fas fa-cart-plus"></i> Add to Cart</button>
             </div>
         </div>
         <div id="cart">
-            <h2>Shopping Cart</h2>
+            <h2><i class="fas fa-shopping-cart"></i> Shopping Cart</h2>
             <div id="cart-items"></div>
             <p>Total Items: <span id="cart-count">0</span> | Total: $<span id="cart-total">0.00</span></p>
-            <button onclick="window.location.href='checkout.html'">Proceed to Checkout</button>
+            <button onclick="window.location.href='checkout.html'"><i class="fas fa-check"></i> Proceed to Checkout</button>
         </div>
     </div>
 </body>

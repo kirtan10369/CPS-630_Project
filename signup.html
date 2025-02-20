@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>OSP - Sign Up</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="scripts.js"></script>
@@ -11,24 +13,30 @@
     <nav>
         <div class="logo"><img src="logo.png" alt="OSP Logo" class="logo-img"></div>
         <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="about.html">About Us</a></li>
-            <li><a href="signup.html">Sign Up</a></li>
-            <li><a href="signin.html">Sign In</a></li>
-            <li><a href="shopping.html">Shopping Cart</a></li>
-            <li><a href="#">Types of Services</a></li>
+            <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="about.html"><i class="fas fa-info-circle"></i> About Us</a></li>
+            <li><a href="signup.html"><i class="fas fa-user-plus"></i> Sign Up</a></li>
+            <li><a href="signin.html"><i class="fas fa-sign-in-alt"></i> Sign In</a></li>
+            <li><a href="shopping.html"><i class="fas fa-shopping-cart"></i> Shopping Cart</a></li>
+            <li><a href="#"><i class="fas fa-concierge-bell"></i> Types of Services</a></li>
         </ul>
     </nav>
     <div class="content">
-        <h1>Sign Up</h1>
+        <h1><i class="fas fa-user-plus"></i> Sign Up</h1>
         <form id="signupForm" method="post" onsubmit="signup(event)">
-            <input type="text" id="Login-Id" placeholder="Username" required><br>
-            <input type="password" id="Password" placeholder="Password" required><br>
-            <input type="text" id="Name" placeholder="Full Name" required><br>
-            <input type="tel" id="Tel-no" placeholder="Phone Number" required><br>
-            <input type="text" id="Address" placeholder="Mailing Address" required><br>
-            <input type="email" id="Email" placeholder="Email" required><br>
-            <button type="submit">Sign Up</button>
+            <label for="Login-Id"><i class="fas fa-user"></i> Username</label>
+            <input type="text" id="Login-Id" placeholder="Enter username" required>
+            <label for="Password"><i class="fas fa-lock"></i> Password</label>
+            <input type="password" id="Password" placeholder="Enter password" required>
+            <label for="Name"><i class="fas fa-id-card"></i> Full Name</label>
+            <input type="text" id="Name" placeholder="Enter full name" required>
+            <label for="Tel-no"><i class="fas fa-phone"></i> Phone Number</label>
+            <input type="tel" id="Tel-no" placeholder="Enter phone number" required>
+            <label for="Address"><i class="fas fa-map-marker-alt"></i> Mailing Address</label>
+            <input type="text" id="Address" placeholder="Enter address" required>
+            <label for="Email"><i class="fas fa-envelope"></i> Email</label>
+            <input type="email" id="Email" placeholder="Enter email" required>
+            <button type="submit"><i class="fas fa-user-plus"></i> Sign Up</button>
         </form>
     </div>
 </body>

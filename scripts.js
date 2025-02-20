@@ -1,5 +1,4 @@
 $(document).ready(function() {
-    // Drag-and-Drop for Shopping Cart
     $(".item").draggable({ revert: "invalid", helper: "clone" });
     $("#cart").droppable({
         accept: ".item",
@@ -8,49 +7,40 @@ $(document).ready(function() {
             addToCart(Item_Id);
         }
     });
-
-    // Add to Cart Button Click
     $(".add-to-cart").click(function() {
         var Item_Id = $(this).data("id");
         addToCart(Item_Id);
     });
-
-    // Remove from Cart Button Click (delegated event)
     $("#cart-items").on("click", ".remove-from-cart", function() {
         var Item_Id = $(this).data("id");
         removeFromCart(Item_Id);
     });
-
-    // Initialize cart display
     updateCartDisplay();
 });
 
-// Simulated Items (Matches Item table)
 const items = {
     1: { Item_Id: 1, Item_name: "Smartphone", Price: 299, Department_Code: "ELEC" },
     2: { Item_Id: 2, Item_name: "Laptop", Price: 799, Department_Code: "ELEC" },
     3: { Item_Id: 3, Item_name: "Headphones", Price: 99, Department_Code: "ELEC" }
 };
 
-// Sign-Up (POST simulation - Aligns with User table)
 function signup(event) {
     event.preventDefault();
     let user = {
-        "User-Id": Date.now(), // Unique ID for now
+        "User-Id": Date.now(),
         "Login-Id": $("#Login-Id").val(),
         "Password": $("#Password").val(),
         "Name": $("#Name").val(),
         "Tel-no": $("#Tel-no").val(),
         "Address": $("#Address").val(),
         "Email": $("#Email").val(),
-        "Balance": 0 // Default balance
+        "Balance": 0
     };
     localStorage.setItem("user_" + user["Login-Id"], JSON.stringify(user));
     alert("Sign-up successful! Please sign in.");
     window.location.href = "signin.html";
 }
 
-// Sign-In (GET simulation)
 function signin(event) {
     event.preventDefault();
     let loginId = $("#signinLoginId").val();
@@ -64,10 +54,9 @@ function signin(event) {
     }
 }
 
-// Cart Management (Prepares for Shopping/Order tables)
 function addToCart(Item_Id) {
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
-    cart.push(parseInt(Item_Id)); // Ensure Item_Id is an integer
+    cart.push(parseInt(Item_Id));
     localStorage.setItem("cart", JSON.stringify(cart));
     updateCartDisplay();
 }
@@ -76,7 +65,7 @@ function removeFromCart(Item_Id) {
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
     let index = cart.indexOf(parseInt(Item_Id));
     if (index !== -1) {
-        cart.splice(index, 1); // Remove one occurrence of the item
+        cart.splice(index, 1);
         localStorage.setItem("cart", JSON.stringify(cart));
         updateCartDisplay();
     }
@@ -91,40 +80,38 @@ function updateCartDisplay() {
     } else {
         cart.forEach(id => {
             let item = items[id];
-            if (item) { // Check if item exists
+            if (item) {
                 $("#cart-items").append(
                     `<div class="cart-item">
                         <span>${item.Item_name} - $${item.Price}</span>
-                        <button class="remove-from-cart" data-id="${item.Item_Id}">Remove</button>
+                        <button class="remove-from-cart" data-id="${item.Item_Id}"><i class="fas fa-trash"></i> Remove</button>
                     </div>`
                 );
                 total += item.Price;
             }
         });
     }
-    $("#cart-count").text(cart.length); // Update total number of items
-    $("#cart-total").text(total.toFixed(2)); // Update total price
+    $("#cart-count").text(cart.length);
+    $("#cart-total").text(total.toFixed(2));
 }
 
-// Checkout (Prepares for Order/Trip tables)
 function processCheckout() {
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
     let Total_Price = cart.reduce((sum, id) => sum + (items[id] ? items[id].Price : 0), 0);
     let userId = localStorage.getItem("loggedIn");
     let order = {
-        "Order-Id": Date.now(), // Unique ID
+        "Order-Id": Date.now(),
         "Date-issued": new Date().toISOString().split("T")[0],
         "Date-received": $("#Date-received").val(),
         "Total_Price": Total_Price,
         "User-Id": userId,
-        "Trip-Id": Date.now() + 1 // Simulated Trip-Id
+        "Trip-Id": Date.now() + 1
     };
     $("#invoice").html(`<h2>Invoice</h2><p>Total: $${Total_Price.toFixed(2)}</p>`);
     localStorage.setItem("currentOrder", JSON.stringify(order));
     window.location.href = "payment.html";
 }
 
-// Google Maps (Prepares for Trip table)
 function initMap() {
     if (typeof google === 'undefined' || !google.maps) {
         alert("Google Maps API failed to load. Please check your API key and internet connection.");
@@ -135,17 +122,17 @@ function initMap() {
         alert("Please enter a delivery address!");
         return;
     }
-    let origin = $("#Source-Code").val(); // Dynamically use selected store address
+    let origin = $("#Source-Code").val();
     $("#map").show();
     var map = new google.maps.Map(document.getElementById("map"), {
         zoom: 10,
-        center: { lat: 43.6532, lng: -79.3832 } // Toronto
+        center: { lat: 43.6532, lng: -79.3832 }
     });
     var directionsService = new google.maps.DirectionsService();
     var directionsRenderer = new google.maps.DirectionsRenderer();
     directionsRenderer.setMap(map);
     var request = {
-        origin: origin, // Use the selected store address
+        origin: origin,
         destination: destination,
         travelMode: "DRIVING"
     };
@@ -159,15 +146,14 @@ function initMap() {
     });
 }
 
-// Payment (Prepares for Order/Shopping tables)
 function processPayment(event) {
     event.preventDefault();
     let cardNumber = $("#card-number").val();
     if (cardNumber.length >= 16) {
         let order = JSON.parse(localStorage.getItem("currentOrder"));
-        order["Payment-Code"] = "CC-" + Date.now(); // Simulated payment code
-        order["Receipt-Id"] = Date.now() + 2; // Simulated receipt ID
-        order["Truck-Id"] = 1; // Simulated truck ID
+        order["Payment-Code"] = "CC-" + Date.now();
+        order["Receipt-Id"] = Date.now() + 2;
+        order["Truck-Id"] = 1;
         localStorage.setItem("order_" + order["Order-Id"], JSON.stringify(order));
         localStorage.removeItem("cart");
         localStorage.removeItem("currentOrder");
@@ -177,7 +163,6 @@ function processPayment(event) {
     }
 }
 
-// Confirmation
 $(document).ready(function() {
     if (window.location.pathname.includes("confirmation.html")) {
         let latestOrderKey = Object.keys(localStorage).filter(k => k.startsWith("order_")).pop();
