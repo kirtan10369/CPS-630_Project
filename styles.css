@@ -23,7 +23,7 @@ nav ul {
 nav a { color: white; text-decoration: none; }
 .content {margin-top:5%; margin-right: 5%; text-align: center;}
 fieldset { border: 4px solid ;
-    border-radius: 12px ;height: 500px;width: 400px; padding: 60px; }
+    border-radius: 12px ;height: 550px;width: 400px; padding: 60px; }
 .items { display: flex; gap: 20px; justify-content: center; }
 .item {
     border: 1px solid #ccc;

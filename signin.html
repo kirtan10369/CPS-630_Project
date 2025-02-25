@@ -4,8 +4,46 @@
     <meta charset="UTF-8">
     <title>OSP - Sign In</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="scripts.js"></script>
+    <script>
+        function handleLogin(event) {
+            event.preventDefault();  // Prevent form submission
+            console.log("Form submitted");
+            // Get form data
+            var loginID = document.getElementById("signinLoginId").value;
+            var passwd = document.getElementById("signinPassword").value;
+
+            // Create a new XMLHttpRequest object
+            var xhr = new XMLHttpRequest();
+
+        
+            xhr.open("GET", "signin.php", true);
+
+            // Set content type to send data as form data
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+           // Open a GET request to the PHP script
+           xhr.open("GET", "signin.php?loginID=" + encodeURIComponent(loginID) + "&passwd=" + encodeURIComponent(passwd), true);
+
+            // Send the data to the PHP script via GET
+            xhr.send();
+
+            // Handle the response when it's received
+            xhr.onload = function() {
+                console.log(xhr.responseText);
+                if (xhr.status === 200) {
+                    console.log("Yes working!");
+                    if(xhr.responseText == "Success!") {
+                        document.getElementById("message").innerHTML=xhr.responseText;
+                        setTimeout(window.location.href='shopping.html',4000);
+
+                    } else {
+                        console.log("Unsuccessful login");
+                        document.getElementById("message").innerHTML = xhr.responseText;
+                    }
+            };
+        }
+    }
+    </script>
 </head>
 <body>
     <nav>
@@ -21,8 +59,8 @@
     </nav>
     <div class="content">
 
-        <form id="signinForm" method="post" action="signin.php" style="width: 50%;height: 50%;">
-            <fieldset>
+        <form id="signinForm" onsubmit="handleLogin(event)"  style="width: 50%;height: 50%;">
+            <fieldset style="height:550px;">
                 <h1 style="font-size: 70px;margin-bottom: 80px;">Sign In</h1>
                 <div style="display: flex;justify-content: center;margin-bottom:20px;">
                     <label for="signinLoginId" style="font-size: 40px;">Username:</label>
@@ -41,6 +79,7 @@
                      </div>
                     <button type="submit">Sign In</button>
                 </div>
+                <h1 id="message"></h1>
             </fieldset>
         </form>
     </div>
