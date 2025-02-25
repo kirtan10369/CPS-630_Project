@@ -21,7 +21,9 @@ nav ul {
     gap: 20px;
 }
 nav a { color: white; text-decoration: none; }
-.content { padding: 20px; text-align: center; }
+.content {margin-top:5%; margin-right: 5%; text-align: center;}
+fieldset { border: 4px solid ;
+    border-radius: 12px ;height: 500px;width: 400px; padding: 60px; }
 .items { display: flex; gap: 20px; justify-content: center; }
 .item {
     border: 1px solid #ccc;
@@ -52,3 +54,10 @@ nav a { color: white; text-decoration: none; }
 form { display: flex; flex-direction: column; gap: 10px; max-width: 300px; margin: 0 auto; }
 button { padding: 10px; background: #333; color: white; border: none; cursor: pointer; }
 button:hover { background: #555; }
+.signin_submit { display: flex;
+    justify-content:space-between;
+    align-items:center;font-size: 25px;
+}
+.signin_submit button { width: 100px;
+border-radius: 6px;
+height: 40px; }

@@ -21,20 +21,20 @@
     </nav>
     <div class="content">
 
-        <form id="signinForm" method="get" action="signin.php">
+        <form id="signinForm" method="post" action="signin.php" style="width: 50%;height: 50%;">
             <fieldset>
-                <h1>Sign In</h1>
-                <div>
-                    <label for="signinLoginId">Username:</label><br>
-                    <input type="text" id="signinLoginId" placeholder="Username" required><br>
+                <h1 style="font-size: 70px;margin-bottom: 80px;">Sign In</h1>
+                <div style="display: flex;justify-content: center;margin-bottom:20px;">
+                    <label for="signinLoginId" style="font-size: 40px;">Username:</label>
+                    <input type="text" id="signinLoginId" name="loginId" placeholder="Username" required style="margin: 10px;" >
                 </div>
                 <br>
-                <div>
-                <label for="signinPassword">Password:</label><br>
-                <input type="password" id="signinPassword" placeholder="Password" required><br>
+                <div style="display: flex;justify-content: center;margin-bottom: 120px;">
+                <label for="signinPassword" style="font-size: 40px;">Password:</label>
+                <input type="password" id="signinPassword" placeholder="Password" name="passwd" required style="margin: 10px;">
                 </div>
                 <br>
-                <div style="display: flex;justify-content:space-between;">
+                <div class="signin_submit">
                     <div>
                     <input type="checkbox" id="signinRememberMe">
                     <label for="signinRememberMe">Remember Me</label>
