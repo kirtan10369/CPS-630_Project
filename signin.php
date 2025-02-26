@@ -8,7 +8,7 @@ if(!$conn){
 else{
     
 }
-$sql="Select Login_ID,Password from User where Login_ID=? and Password=?";;
+$sql="Select Login_ID,Passwd from User where Login_ID=? and Passwd=?";;
 $stmt=$conn->prepare(($sql));
 $stmt->bind_param("ss",$_GET['loginID'],$_GET['passwd']);
 $stmt->execute();

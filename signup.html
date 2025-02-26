@@ -5,7 +5,76 @@
     <title>OSP - Sign Up</title>
     <link rel="stylesheet" href="styles.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="scripts.js"></script>
+    <script>
+            function handleLogin(event) {
+            event.preventDefault();  // Prevent form submission
+            console.log("Form submitted");
+
+            // Get form data
+            var fname = document.getElementById("FName").value;
+            var lname = document.getElementById("LName").value;   
+            var username = document.getElementById("Login-Id").value;
+            var password = document.getElementById("Password").value;
+            var dob = document.getElementById("DOB").value;
+            var tel = document.getElementById("Tel-no").value;
+            var email = document.getElementById("Email").value;
+
+            // Check if any field is empty
+            if (!fname || !lname || !username || !password || !dob || !tel || !email) {
+                alert("All fields must be filled out.");
+                return;
+            }
+
+            // Debugging the form values
+            console.log({
+                fname: fname,
+                lname: lname,
+                username: username,
+                password: password,
+                dob: dob,
+                tel: tel,
+                email: email
+            });
+
+            // Create a new XMLHttpRequest object
+            var xhr = new XMLHttpRequest();
+
+            // Open the POST request
+            xhr.open("POST", "signup.php", true);
+
+            // Set content type to send data as form data
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+            // Prepare the data to be sent in the POST body
+            var params = "username=" + encodeURIComponent(username) +
+                        "&password=" + encodeURIComponent(password) +
+                        "&fname=" + encodeURIComponent(fname) +
+                        "&lname=" + encodeURIComponent(lname) +
+                        "&dob=" + encodeURIComponent(dob) +
+                        "&tel=" + encodeURIComponent(tel) +
+                        "&email=" + encodeURIComponent(email);
+
+            // Send the data to the PHP script via POST
+            xhr.send(params);
+
+            // Handle the response when it's received
+            // Handle the response when it's received
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    console.log("Yes working!");
+                    if(xhr.responseText == "Success!") {
+                        document.getElementById("message").innerHTML=xhr.responseText;
+                        setTimeout(window.location.href='shopping.html',4000);
+
+                    } else {
+                        console.log("Unsuccessful login");
+                        document.getElementById("message").innerHTML = xhr.responseText;
+                    }
+            }
+        };
+    }
+
+    </script>
 </head>
 <body>
     <nav>
@@ -21,50 +90,51 @@
     </nav>
     <div class="container" style="font-size: 25px; margin-top:5%;margin-right: 5%;" >
         
-        <form id="signupForm" method="post" onsubmit="signup(event)">
+        <form id="signupForm" method="post"  onsubmit="handleLogin(event)" >
           
             <fieldset class="cont">
                 <h1 style="font-size: 72px;">Sign Up</h1>  
             <div>
                 <label for="Login-Id">Username:</label>
-                <input type="text" id="Login-Id" placeholder="Username" required>
+                <input type="text" id="Login-Id" placeholder="Username" name="username" required>
             </div>
             <br>
             <div>
                 <label for="Password">Password:</label>
-                <input type="password" id="Password" placeholder="Password" required><br>
+                <input type="password" id="Password" placeholder="Password" name="password" required><br>
             </div>
             <br>
             <div style="display:inline-block;">
                 <div >
                 <label for="Name" >First Name:</label>
-                <input type="text" id="Name" placeholder="Full Name" required>
+                <input type="text" id="FName" placeholder="Full Name" name="fname" required>
                 </div>
                 <div>
                 <label for="Name">Last Name:</label>
-                <input type="text" id="Name" placeholder="Full Name" required><br>
+                <input type="text" id="LName" placeholder="Full Name" name="lname" required><br>
                 </div>
             </div>
             <br>
             <br>
             <div>
                 <label for="DOB">Date of Birth:</label>
-                <input type="date" id="DOB" required><br>
+                <input type="date" id="DOB" name="dob" required><br>
             </div>
             <br>
             <div>
                 <label for="Tel-no">Phone Number:</label>
-                <input type="tel" id="Tel-no" placeholder="Phone Number" required><br>
+                <input type="tel" id="Tel-no" placeholder="Phone Number" name="tel" required><br>
             </div>
             <br>
             <div>
                 <label for="Email">Email:</label>
-            <input type="email" id="Email" placeholder="Email" required><br>
+            <input type="email" id="Email" placeholder="Email" name="email" required><br>
             </div>
             <br>
             <div>
             <button type="submit">Sign Up</button>
             </div>
+            <h1 id="message"></h1>
         </fieldset>
         </form>
     </div>
