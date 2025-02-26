@@ -19,11 +19,12 @@
             <li><a href="#">Types of Services</a></li>
         </ul>
     </nav>
-    <div class="content" >
+    <div class="container" style="font-size: 25px; margin-top:5%;margin-right: 5%;" >
         
         <form id="signupForm" method="post" onsubmit="signup(event)">
-            <fieldset>
-                <h1>Sign Up</h1>
+          
+            <fieldset class="cont">
+                <h1 style="font-size: 72px;">Sign Up</h1>  
             <div>
                 <label for="Login-Id">Username:</label>
                 <input type="text" id="Login-Id" placeholder="Username" required>
@@ -34,15 +35,17 @@
                 <input type="password" id="Password" placeholder="Password" required><br>
             </div>
             <br>
-            <div>
-         
-                <label for="Name">First Name:</label>
-                <input type="text" id="Name" placeholder="Full Name" required><br>
-            
+            <div style="display:inline-block;">
+                <div >
+                <label for="Name" >First Name:</label>
+                <input type="text" id="Name" placeholder="Full Name" required>
+                </div>
+                <div>
                 <label for="Name">Last Name:</label>
                 <input type="text" id="Name" placeholder="Full Name" required><br>
-    
-        </div>
+                </div>
+            </div>
+            <br>
             <br>
             <div>
                 <label for="DOB">Date of Birth:</label>
@@ -61,7 +64,7 @@
             <br>
             <div>
             <button type="submit">Sign Up</button>
-        </div>
+            </div>
         </fieldset>
         </form>
     </div>
