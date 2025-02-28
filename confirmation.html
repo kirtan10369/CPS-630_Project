@@ -8,6 +8,25 @@
     <link rel="stylesheet" href="styles.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="scripts.js"></script>
+    <script>
+        $(document).ready(function() {
+    if (window.location.pathname.includes("confirmation.html")) {
+        let latestOrderKey = Object.keys(localStorage).filter(k => k.startsWith("order_")).pop();
+        let order = JSON.parse(localStorage.getItem(latestOrderKey));
+        $("#confirmation-details").html(
+            `<p id='order_id'>Order-Id: ${order["Order-Id"]}</p>` +
+            `<p id='total_price'>Total: $${order["Total_Price"].toFixed(2)}</p>` +
+            `<p id='delv'>Delivery: ${order["Date-received"]} ${$("#Delivery-Time").val()}</p>` +
+            `<p id='truck_id'>Truck-Id: ${order["Truck-Id"]}</p>`
+        );
+    }
+});
+         setTimeout(function() {
+            console.log("Order ID :", $("#order_id").html());
+            console.log("Total price: ",$("#total_price").html());
+            console.log("Truck ID: ",$("#truck_id").html());
+        }, 100);
+    </script>
 </head>
 <body>
     <nav>
