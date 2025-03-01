@@ -2,53 +2,81 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OSP - Shopping</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="scripts.js"></script>
 </head>
 <body>
-    <nav>
-        <div class="logo"><img src="logo.png" alt="OSP Logo" class="logo-img"></div>
-        <ul>
-            <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
-            <li><a href="about.html"><i class="fas fa-info-circle"></i> About Us</a></li>
-            <li><a href="signup.html"><i class="fas fa-user-plus"></i> Sign Up</a></li>
-            <li><a href="shopping.html"><i class="fas fa-shopping-cart"></i> Shopping Cart</a></li>
-            <li><a href="#"><i class="fas fa-concierge-bell"></i> Types of Services</a></li>
-            <li><a href="signin.html"><i class="fas fa-check"></i>Sign Out</a></li>
-        </ul>
-    </nav>
-    <div class="content">
-        <h1><i class="fas fa-store"></i>Sneaker Shopping</h1>
-        <div class="items">
-            <div class="item" data-id="1">
-                <img src="" alt="Sneaker">
-                <h3>Adidas</h3>
-                <p>$79</p>
-                <button class="add-to-cart" data-id="1"><i class="fas fa-cart-plus"></i> Add to Cart</button>
-            </div>
-            <div class="item" data-id="2">
-                <img src="" alt="Sneaker">
-                <h3>Nike</h3>
-                <p>$99</p>
-                <button class="add-to-cart" data-id="2"><i class="fas fa-cart-plus"></i> Add to Cart</button>
-            </div>
-            <div class="item" data-id="3">
-                <img src="" alt="Sneaker">
-                <h3>New Balance</h3>
-                <p>$89</p>
-                <button class="add-to-cart" data-id="3"><i class="fas fa-cart-plus"></i> Add to Cart</button>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">
+                <img src="logo.png" alt="OSP Logo" class="logo-img">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about.html"><i class="fas fa-info-circle"></i> About Us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="signup.html"><i class="fas fa-user-plus"></i> Sign Up</a></li>
+                    <li class="nav-item"><a class="nav-link" href="shopping.html"><i class="fas fa-shopping-cart"></i> Shopping Cart</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#"><i class="fas fa-concierge-bell"></i> Services</a></li>
+                    <li class="nav-item"><a class="nav-link" href="signin.html"><i class="fas fa-sign-out-alt"></i> Sign Out</a></li>
+                </ul>
             </div>
         </div>
-        <div id="cart">
-            <h2><i class="fas fa-shopping-cart"></i> Shopping Cart</h2>
-            <div id="cart-items"></div>
-            <p>Total Items: <span id="cart-count">0</span> | Total: $<span id="cart-total">0.00</span></p>
-            <button onclick="window.location.href='checkout.html'"><i class="fas fa-check"></i> Proceed to Checkout</button>
+    </nav>
+    <div class="container mt-5">
+        <h1 class="text-center text-primary mb-4"><i class="fas fa-store"></i> Sneaker Shopping</h1>
+        <div class="row justify-content-center g-4">
+            <div class="col-md-4 col-sm-6">
+                <div class="card h-100 text-center">
+                    <img src="https://via.placeholder.com/100/FF5733/FFFFFF?text=Adidas" class="card-img-top mx-auto mt-3" alt="Adidas">
+                    <div class="card-body">
+                        <h5 class="card-title">Adidas</h5>
+                        <p class="card-text">$79</p>
+                        <button class="btn btn-primary add-to-cart" data-id="1"><i class="fas fa-cart-plus"></i> Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6">
+                <div class="card h-100 text-center">
+                    <img src="https://via.placeholder.com/100/33FF57/FFFFFF?text=Nike" class="card-img-top mx-auto mt-3" alt="Nike">
+                    <div class="card-body">
+                        <h5 class="card-title">Nike</h5>
+                        <p class="card-text">$99</p>
+                        <button class="btn btn-primary add-to-cart" data-id="2"><i class="fas fa-cart-plus"></i> Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6">
+                <div class="card h-100 text-center">
+                    <img src="https://via.placeholder.com/100/5733FF/FFFFFF?text=New+Balance" class="card-img-top mx-auto mt-3" alt="New Balance">
+                    <div class="card-body">
+                        <h5 class="card-title">New Balance</h5>
+                        <p class="card-text">$89</p>
+                        <button class="btn btn-primary add-to-cart" data-id="3"><i class="fas fa-cart-plus"></i> Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card mt-5" id="cart">
+            <div class="card-header">
+                <h2 class="text-primary"><i class="fas fa-shopping-cart"></i> Shopping Cart</h2>
+            </div>
+            <div class="card-body" id="cart-items"></div>
+            <div class="card-footer">
+                <p>Total Items: <span id="cart-count">0</span> | Total: $<span id="cart-total">0.00</span></p>
+                <button class="btn btn-success" onclick="window.location.href='checkout.html'"><i class="fas fa-check"></i> Proceed to Checkout</button>
+            </div>
         </div>
     </div>
 </body>

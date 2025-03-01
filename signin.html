@@ -2,93 +2,87 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OSP - Sign In</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         function handleLogin(event) {
-            event.preventDefault();  // Prevent form submission
+            event.preventDefault();
             console.log("Form submitted");
-            // Get form data
-            var loginID = document.getElementById("signinLoginId").value;
-            var passwd = document.getElementById("signinPassword").value;
+            var loginID = $("#signinLoginId").val();
+            var passwd = $("#signinPassword").val();
 
-            // Create a new XMLHttpRequest object
-            var xhr = new XMLHttpRequest();
-
-        
-            xhr.open("GET", "signin.php", true);
-
-            // Set content type to send data as form data
-            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-
-           // Open a GET request to the PHP script
-           xhr.open("GET", "signin.php?loginID=" + encodeURIComponent(loginID) + "&passwd=" + encodeURIComponent(passwd), true);
-
-            // Send the data to the PHP script via GET
-            xhr.send();
-
-            // Handle the response when it's received
-            xhr.onload = function() {
-                console.log(xhr.responseText);
-                if (xhr.status === 200) {
-                    console.log("Yes working!");
-                    if(xhr.responseText == "Success!") {
-                        document.getElementById("message").innerHTML=xhr.responseText;
-                        $("#message").css("color", "green");
-                        setTimeout(window.location.href='shopping.html',4000);
-
+            $.ajax({
+                url: "signin.php",
+                type: "GET",
+                data: { loginID: loginID, passwd: passwd },
+                success: function(response) {
+                    console.log(response);
+                    if (response === "Success!") {
+                        $("#message").text(response).css("color", "green");
+                        setTimeout(() => window.location.href = "shopping.html", 2000);
                     } else {
-                        console.log("Unsuccessful login");
-                        document.getElementById("message").innerHTML ="Try Again!";
+                        $("#message").text("Try Again!").css("color", "red");
                         $("#signinForm").trigger("reset");
-                        $("#message").css("color",'red');
                     }
-            };
+                },
+                error: function(xhr, status, error) {
+                    $("#message").text("Error: " + error).css("color", "red");
+                }
+            });
         }
-    }
     </script>
 </head>
 <body>
-    <nav>
-        <div class="logo"><img src="logo.png" alt="OSP Logo" class="logo-img"></div>
-        <ul>
-            <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
-            <li><a href="about.html"><i class="fas fa-info-circle"></i> About Us</a></li>
-            <li><a href="signup.html"><i class="fas fa-user-plus"></i> Sign Up</a></li>
-            <li><a href="signin.html"><i class="fas fa-sign-in-alt"></i> Sign In</a></li>
-            <li><a href="shopping.html"><i class="fas fa-shopping-cart"></i> Shopping Cart</a></li>
-            <li><a href="#"><i class="fas fa-concierge-bell"></i> Types of Services</a></li>
-        </ul>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">
+                <img src="logo.png" alt="OSP Logo" class="logo-img">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about.html"><i class="fas fa-info-circle"></i> About Us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="signup.html"><i class="fas fa-user-plus"></i> Sign Up</a></li>
+                    <li class="nav-item"><a class="nav-link" href="signin.html"><i class="fas fa-sign-in-alt"></i> Sign In</a></li>
+                    <li class="nav-item"><a class="nav-link" href="shopping.html"><i class="fas fa-shopping-cart"></i> Shopping Cart</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#"><i class="fas fa-concierge-bell"></i> Services</a></li>
+                </ul>
+            </div>
+        </div>
     </nav>
-    <div class="content">
-
-        <form id="signinForm" onsubmit="handleLogin(event)"  style="width: 50%;height:50%;">
-            <fieldset style="height:580px;border-radius: 12px;border: 8px solid;">
-          
-                <h1 style="font-size: 70px;margin-bottom: 80px;">Sign In</h1>
-                   <div style="display: flex;justify-content: center;margin-bottom:20px;">
-                    <label for="signinLoginId" style="font-size: 40px;">Username:</label>
-                    <input type="text" id="signinLoginId" name="loginId" placeholder="Username" required style="margin: 10px;" >
-                </div>
-                <br>
-                <div style="display: flex;justify-content: center;margin-bottom: 120px;">
-                <label for="signinPassword" style="font-size: 40px;">Password:</label>
-                <input type="password" id="signinPassword" placeholder="Password" name="passwd" required style="margin: 10px;">
-                </div>
-                <br>
-                <div class="signin_submit">
-                    <div>
-                    <input type="checkbox" id="signinRememberMe">
-                    <label for="signinRememberMe">Remember Me</label>
+    <div class="container mt-5">
+        <div class="card mx-auto" style="max-width: 400px;">
+            <div class="card-header">
+                <h1 class="text-primary text-center"><i class="fas fa-sign-in-alt"></i> Sign In</h1>
+            </div>
+            <div class="card-body">
+                <form id="signinForm" onsubmit="handleLogin(event)">
+                    <div class="mb-3">
+                        <label for="signinLoginId" class="form-label"><i class="fas fa-user"></i> Username</label>
+                        <input type="text" class="form-control" id="signinLoginId" name="loginId" placeholder="Username" required>
                     </div>
-                    <button type="submit">Sign In</button>
-                </div>
-            </fieldset>
-            <h1 id="message" style="text-align: center;font-size: 52px;"></h1>
-        </form>
+                    <div class="mb-3">
+                        <label for="signinPassword" class="form-label"><i class="fas fa-lock"></i> Password</label>
+                        <input type="password" class="form-control" id="signinPassword" name="passwd" placeholder="Password" required>
+                    </div>
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="signinRememberMe">
+                        <label class="form-check-label" for="signinRememberMe">Remember Me</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100"><i class="fas fa-sign-in-alt"></i> Sign In</button>
+                </form>
+                <p id="message" class="text-center mt-3"></p>
+            </div>
+        </div>
     </div>
 </body>
 </html>

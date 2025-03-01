@@ -1,9 +1,9 @@
 $(document).ready(function() {
-    $(".item").draggable({ revert: "invalid", helper: "clone" });
+    $(".card").draggable({ revert: "invalid", helper: "clone" });
     $("#cart").droppable({
-        accept: ".item",
+        accept: ".card",
         drop: function(event, ui) {
-            var Item_Id = ui.draggable.data("id");
+            var Item_Id = ui.draggable.find(".add-to-cart").data("id");
             addToCart(Item_Id);
         }
     });
@@ -16,43 +16,40 @@ $(document).ready(function() {
         removeFromCart(Item_Id);
     });
     updateCartDisplay();
+
+    if (window.location.pathname.includes("confirmation.html")) {
+        let latestOrderKey = Object.keys(localStorage).filter(k => k.startsWith("order_")).pop();
+        let order = JSON.parse(localStorage.getItem(latestOrderKey));
+        let cart = JSON.parse(localStorage.getItem("cartBeforePayment")) || [];
+
+        $("#order-id").text(order["Order-Id"]);
+        $("#date-issued").text(order["Date-issued"]);
+        $("#total-price").text(order["Total_Price"].toFixed(2));
+
+        $("#source-address").text(order["Source-Address"] || "N/A");
+        $("#destination-address").text(order["Destination-Address"] || "N/A");
+        $("#delivery-date-time").text(`${order["Date-received"]} ${order["Delivery-Time"] || $("#Delivery-Time").val()}`);
+        $("#truck-id").text(order["Truck-Id"]);
+
+        cart.forEach(id => {
+            let item = items[id];
+            if (item) {
+                $("#order-items").append(
+                    `<div class="list-group-item d-flex justify-content-between align-items-center">
+                        <span>${item.Item_name}</span>
+                        <span>$${item.Price.toFixed(2)}</span>
+                    </div>`
+                );
+            }
+        });
+    }
 });
 
 const items = {
-    1: { Item_Id: 1, Item_name: "Smartphone", Price: 299, Department_Code: "ELEC" },
-    2: { Item_Id: 2, Item_name: "Laptop", Price: 799, Department_Code: "ELEC" },
-    3: { Item_Id: 3, Item_name: "Headphones", Price: 99, Department_Code: "ELEC" }
+    1: { Item_Id: 1, Item_name: "Adidas", Price: 79, Department_Code: "SNEAKERS" },
+    2: { Item_Id: 2, Item_name: "Nike", Price: 99, Department_Code: "SNEAKERS" },
+    3: { Item_Id: 3, Item_name: "New Balance", Price: 89, Department_Code: "SNEAKERS" }
 };
-
-function signup(event) {
-    event.preventDefault();
-    let user = {
-        "User-Id": Date.now(),
-        "Login-Id": $("#Login-Id").val(),
-        "Password": $("#Password").val(),
-        "Name": $("#Name").val(),
-        "Tel-no": $("#Tel-no").val(),
-        "Address": $("#Address").val(),
-        "Email": $("#Email").val(),
-        "Balance": 0
-    };
-    localStorage.setItem("user_" + user["Login-Id"], JSON.stringify(user));
-    alert("Sign-up successful! Please sign in.");
-    window.location.href = "signin.html";
-}
-
-function signin(event) {
-    event.preventDefault();
-    let loginId = $("#signinLoginId").val();
-    let password = $("#signinPassword").val();
-    let user = JSON.parse(localStorage.getItem("user_" + loginId));
-    if (user && user["Password"] === password) {
-        localStorage.setItem("loggedIn", user["User-Id"]);
-        window.location.href = "shopping.html";
-    } else {
-        alert("Invalid credentials!");
-    }
-}
 
 function addToCart(Item_Id) {
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -76,15 +73,15 @@ function updateCartDisplay() {
     let total = 0;
     $("#cart-items").html("");
     if (cart.length === 0) {
-        $("#cart-items").html("<p>Your cart is empty.</p>");
+        $("#cart-items").html("<p class='text-muted'>Your cart is empty.</p>");
     } else {
         cart.forEach(id => {
             let item = items[id];
             if (item) {
                 $("#cart-items").append(
-                    `<div class="cart-item">
+                    `<div class="cart-item d-flex justify-content-between align-items-center mb-2">
                         <span>${item.Item_name} - $${item.Price}</span>
-                        <button class="remove-from-cart" data-id="${item.Item_Id}"><i class="fas fa-trash"></i> Remove</button>
+                        <button class="btn btn-danger btn-sm remove-from-cart" data-id="${item.Item_Id}"><i class="fas fa-trash"></i> Remove</button>
                     </div>`
                 );
                 total += item.Price;
@@ -103,12 +100,16 @@ function processCheckout() {
         "Order-Id": Date.now(),
         "Date-issued": new Date().toISOString().split("T")[0],
         "Date-received": $("#Date-received").val(),
+        "Delivery-Time": $("#Delivery-Time").val(),
         "Total_Price": Total_Price,
         "User-Id": userId,
-        "Trip-Id": Date.now() + 1
+        "Trip-Id": Date.now() + 1,
+        "Source-Address": $("#Source-Code").val(),
+        "Destination-Address": $("#Destination-Code").val()
     };
-    $("#invoice").html(`<h2>Invoice</h2><p>Total: $${Total_Price.toFixed(2)}</p>`);
+    $("#invoice").html(`<h3 class="text-primary">Invoice</h3><p>Total: $${Total_Price.toFixed(2)}</p>`);
     localStorage.setItem("currentOrder", JSON.stringify(order));
+    localStorage.setItem("cartBeforePayment", JSON.stringify(cart));
     window.location.href = "payment.html";
 }
 
@@ -162,16 +163,3 @@ function processPayment(event) {
         alert("Invalid card number!");
     }
 }
-
-$(document).ready(function() {
-    if (window.location.pathname.includes("confirmation.html")) {
-        let latestOrderKey = Object.keys(localStorage).filter(k => k.startsWith("order_")).pop();
-        let order = JSON.parse(localStorage.getItem(latestOrderKey));
-        $("#confirmation-details").html(
-            `<p>Order-Id: ${order["Order-Id"]}</p>` +
-            `<p>Total: $${order["Total_Price"].toFixed(2)}</p>` +
-            `<p>Delivery: ${order["Date-received"]} ${$("#Delivery-Time").val()}</p>` +
-            `<p>Truck-Id: ${order["Truck-Id"]}</p>`
-        );
-    }
-});
