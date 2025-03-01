@@ -19,14 +19,12 @@
             var xhr = new XMLHttpRequest();
 
         
-            xhr.open("GET", "signin.php", true);
+            xhr.open("POST", "signin.php", true);
 
             // Set content type to send data as form data
             xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
-           // Open a GET request to the PHP script
-           xhr.open("GET", "signin.php?loginID=" + encodeURIComponent(loginID) + "&passwd=" + encodeURIComponent(passwd), true);
-
+    
             // Send the data to the PHP script via GET
             xhr.send();
 
