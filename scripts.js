@@ -19,9 +19,9 @@ $(document).ready(function() {
 });
 
 const items = {
-    1: { Item_Id: 1, Item_name: "Adidas Sneaker", Price: 79, Department_Code: "ADI" },
-    2: { Item_Id: 2, Item_name: "Nike Sneaker", Price: 99, Department_Code: "NKE" },
-    3: { Item_Id: 3, Item_name: "New Balance Sneaker", Price: 89, Department_Code: "NB" }
+    1: { Item_Id: 1, Item_name: "Smartphone", Price: 299, Department_Code: "ELEC" },
+    2: { Item_Id: 2, Item_name: "Laptop", Price: 799, Department_Code: "ELEC" },
+    3: { Item_Id: 3, Item_name: "Headphones", Price: 99, Department_Code: "ELEC" }
 };
 
 function signup(event) {
@@ -168,10 +168,10 @@ $(document).ready(function() {
         let latestOrderKey = Object.keys(localStorage).filter(k => k.startsWith("order_")).pop();
         let order = JSON.parse(localStorage.getItem(latestOrderKey));
         $("#confirmation-details").html(
-            `<p id='order_id'> ${order["Order-Id"]}</p>` +
-            `<p> $${order["Total_Price"].toFixed(2)}</p>` +
+            `<p>Order-Id: ${order["Order-Id"]}</p>` +
+            `<p>Total: $${order["Total_Price"].toFixed(2)}</p>` +
             `<p>Delivery: ${order["Date-received"]} ${$("#Delivery-Time").val()}</p>` +
-            `<p> ${order["Truck-Id"]}</p>`
+            `<p>Truck-Id: ${order["Truck-Id"]}</p>`
         );
     }
 });
