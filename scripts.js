@@ -1,16 +1,26 @@
 $(document).ready(function() {
-    $("#image").draggable({ revert: "invalid", helper: "clone" });
+    $(".sneaker-img").draggable({ 
+        revert: "invalid", 
+        helper: "clone",
+        cursor: "move"
+    });
+
+    // Make cart droppable
     $("#cart").droppable({
-        accept: "#image",
+        accept: ".sneaker-img",
         drop: function(event, ui) {
-            var Item_Id = ui.draggable.find(".add-to-cart").data("id");
+            var Item_Id = ui.draggable.data("id");
             addToCart(Item_Id);
         }
     });
+
+    // Add to cart button click
     $(".add-to-cart").click(function() {
         var Item_Id = $(this).data("id");
         addToCart(Item_Id);
     });
+
+    // Remove from cart
     $("#cart-items").on("click", ".remove-from-cart", function() {
         var Item_Id = $(this).data("id");
         removeFromCart(Item_Id);
@@ -30,7 +40,6 @@ $(document).ready(function() {
         $("#destination-address").text(order["Destination-Address"] || "N/A");
         $("#delivery-date-time").text(`${order["Date-received"]} at ${order["Delivery-Time"] || "N/A"}`);
         $("#truck-id").text(order["Truck-Id"]);
-
         cart.forEach(id => {
             let item = items[id];
             if (item) {
@@ -149,17 +158,43 @@ function initMap() {
 
 function processPayment(event) {
     event.preventDefault();
+    let form = document.getElementById("paymentForm");
     let cardNumber = $("#card-number").val();
-    if (cardNumber.length >= 16) {
-        let order = JSON.parse(localStorage.getItem("currentOrder"));
-        order["Payment-Code"] = "CC-" + Date.now();
-        order["Receipt-Id"] = Date.now() + 2;
-        order["Truck-Id"] = 1;
-        localStorage.setItem("order_" + order["Order-Id"], JSON.stringify(order));
-        localStorage.removeItem("cart");
-        localStorage.removeItem("currentOrder");
-        window.location.href = "confirmation.html";
-    } else {
-        alert("Invalid card number!");
+    let expiry = $("#expiry").val();
+    let cvv = $("#cvv").val();
+
+    // Define regex patterns
+    const cardPattern = /^\d{4}-\d{4}-\d{4}-\d{4}$/;
+    const expiryPattern = /^(0[1-9]|1[0-2])\/\d{2}$/;
+    const cvvPattern = /^\d{3,4}$/;
+
+    // Reset error message
+    $("#payment-error").text("");
+
+    // Validate inputs
+    if (!cardPattern.test(cardNumber)) {
+        $("#payment-error").text("Invalid card number. Use format xxxx-xxxx-xxxx-xxxx (e.g., 1234-5678-9012-3456).");
+        $("#card-number").addClass("is-invalid");
+        return;
     }
+    if (!expiryPattern.test(expiry)) {
+        $("#payment-error").text("Invalid expiry date. Use format MM/DD (e.g., 12/25).");
+        $("#expiry").addClass("is-invalid");
+        return;
+    }
+    if (!cvvPattern.test(cvv)) {
+        $("#payment-error").text("Invalid CVV. Must be 3 or 4 digits (e.g., 123 or 1234).");
+        $("#cvv").addClass("is-invalid");
+        return;
+    }
+
+    // If all validations pass, proceed with payment
+    let order = JSON.parse(localStorage.getItem("currentOrder"));
+    order["Payment-Code"] = "CC-" + Date.now();
+    order["Receipt-Id"] = Date.now() + 2;
+    order["Truck-Id"] = 1;
+    localStorage.setItem("order_" + order["Order-Id"], JSON.stringify(order));
+    localStorage.removeItem("cart");
+    localStorage.removeItem("currentOrder");
+    window.location.href = "confirmation.html";
 }
