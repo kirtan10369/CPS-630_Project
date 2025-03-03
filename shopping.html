@@ -23,7 +23,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav me-auto">
                     <li class="nav-item"><a class="nav-link" href="index.html"><i class="fas fa-home"></i> Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="about.html"><i class="fas fa-info-circle"></i> About Us</a></li>
                     <li class="nav-item"><a class="nav-link" href="signup.html"><i class="fas fa-user-plus"></i> Sign Up</a></li>
@@ -31,6 +31,10 @@
                     <li class="nav-item"><a class="nav-link" href="#"><i class="fas fa-concierge-bell"></i> Services</a></li>
                     <li class="nav-item"><a class="nav-link" href="signin.html"><i class="fas fa-sign-out-alt"></i> Sign Out</a></li>
                 </ul>
+                <form class="d-flex" id="searchForm">
+                    <input class="form-control me-2" type="search" id="searchInput" placeholder="Search Sneakers" aria-label="Search">
+                    <button class="btn btn-outline-light" type="submit"><i class="fas fa-search"></i></button>
+                </form>
             </div>
         </div>
     </nav>
@@ -39,7 +43,7 @@
         <div class="row justify-content-center g-4">
             <div class="col-md-4 col-sm-6">
                 <div class="card h-100 text-center">
-                    <img src="Adidas.jpg" id="image" class="card-img-top mx-auto mt-3" alt="Adidas">
+                    <img src="Adidas.jpg" class="card-img-top mx-auto mt-3 sneaker-img" data-id="1" alt="Adidas">
                     <div class="card-body">
                         <h5 class="card-title">Adidas</h5>
                         <p class="card-text">$79</p>
@@ -49,7 +53,7 @@
             </div>
             <div class="col-md-4 col-sm-6">
                 <div class="card h-100 text-center">
-                    <img src="Nike.jpeg" id="image" class="card-img-top mx-auto mt-3" alt="Nike">
+                    <img src="Nike.jpeg" class="card-img-top mx-auto mt-3 sneaker-img" data-id="2" alt="Nike">
                     <div class="card-body">
                         <h5 class="card-title">Nike</h5>
                         <p class="card-text">$99</p>
@@ -59,7 +63,7 @@
             </div>
             <div class="col-md-4 col-sm-6">
                 <div class="card h-100 text-center">
-                    <img src="New-balance.jpeg" id="image" class="card-img-top mx-auto mt-3" alt="New Balance">
+                    <img src="New-balance.jpeg" class="card-img-top mx-auto mt-3 sneaker-img" data-id="3" alt="New Balance">
                     <div class="card-body">
                         <h5 class="card-title">New Balance</h5>
                         <p class="card-text">$89</p>

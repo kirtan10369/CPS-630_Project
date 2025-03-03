@@ -55,3 +55,16 @@ body {
 .navbar-nav .nav-link i {
     margin-right: 5px;
 }
+
+
+#searchForm {
+    max-width: 300px;
+}
+
+#searchInput {
+    border-radius: 20px 0 0 20px;
+}
+
+#searchForm .btn {
+    border-radius: 0 20px 20px 0;
+}

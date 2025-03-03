@@ -26,7 +26,7 @@
                     <li class="nav-item"><a class="nav-link" href="index.html"><i class="fas fa-home"></i> Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="about.html"><i class="fas fa-info-circle"></i> About Us</a></li>
                     <li class="nav-item"><a class="nav-link" href="shopping.html"><i class="fas fa-shopping-cart"></i> Shopping Cart</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#"><i class="fas fa-concierge-bell"></i> Services</a></li>
+                    
                     <li class="nav-item"><a class="nav-link" href="signin.html"><i class="fas fa-sign-out-alt"></i> Sign Out</a></li>
                 </ul>
             </div>
@@ -38,21 +38,25 @@
                 <h1 class="text-primary text-center"><i class="fas fa-credit-card"></i> Payment</h1>
             </div>
             <div class="card-body">
-                <form id="paymentForm" onsubmit="processPayment(event)">
+                <form id="paymentForm" onsubmit="processPayment(event)" novalidate>
                     <div class="mb-3">
                         <label for="card-number" class="form-label"><i class="fas fa-credit-card"></i> Card Number</label>
-                        <input type="text" class="form-control" id="card-number" placeholder="Enter card number" required>
+                        <input type="text" class="form-control" id="card-number" name="card-number" placeholder="xxxx-xxxx-xxxx-xxxx" pattern="\d{4}-\d{4}-\d{4}-\d{4}" required>
+                        <div class="invalid-feedback">Please enter a valid card number (xxxx-xxxx-xxxx-xxxx).</div>
                     </div>
                     <div class="mb-3">
                         <label for="expiry" class="form-label"><i class="fas fa-calendar-alt"></i> Expiry Date</label>
-                        <input type="text" class="form-control" id="expiry" placeholder="MM/YY" required>
+                        <input type="text" class="form-control" id="expiry" name="expiry" placeholder="MM/DD" pattern="(0[1-9]|1[0-2])\/\d{2}" required>
+                        <div class="invalid-feedback">Please enter a valid expiry date (MM/DD, e.g., 12/25).</div>
                     </div>
                     <div class="mb-3">
                         <label for="cvv" class="form-label"><i class="fas fa-lock"></i> CVV</label>
-                        <input type="text" class="form-control" id="cvv" placeholder="Enter CVV" required>
+                        <input type="text" class="form-control" id="cvv" name="cvv" placeholder="123 or 1234" pattern="\d{3,4}" required>
+                        <div class="invalid-feedback">Please enter a valid CVV (3 or 4 digits).</div>
                     </div>
                     <button type="submit" class="btn btn-success w-100"><i class="fas fa-check"></i> Pay Now</button>
                 </form>
+                <p id="payment-error" class="text-danger text-center mt-3"></p>
             </div>
         </div>
     </div>
