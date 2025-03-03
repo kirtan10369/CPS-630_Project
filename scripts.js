@@ -168,10 +168,10 @@ $(document).ready(function() {
         let latestOrderKey = Object.keys(localStorage).filter(k => k.startsWith("order_")).pop();
         let order = JSON.parse(localStorage.getItem(latestOrderKey));
         $("#confirmation-details").html(
-            `<p id='order_id'> ${order["Order-Id"]}</p>` +
-            `<p> $${order["Total_Price"].toFixed(2)}</p>` +
+            `<p id='order_id'>Order-Id: ${order["Order-Id"]}</p>` +
+            `<p>Total: $${order["Total_Price"].toFixed(2)}</p>` +
             `<p>Delivery: ${order["Date-received"]} ${$("#Delivery-Time").val()}</p>` +
-            `<p> ${order["Truck-Id"]}</p>`
+            `<p>Truck-Id: ${order["Truck-Id"]}</p>`
         );
     }
 });

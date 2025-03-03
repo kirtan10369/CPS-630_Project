@@ -6,7 +6,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         function handleLogin(event) {
             event.preventDefault();  // Prevent form submission
@@ -20,6 +19,7 @@
             var xhr = new XMLHttpRequest();
             
         
+            xhr.open("GET", "signin.php", true);
             xhr.open("GET", "signin.php", true);
 
             // Set content type to send data as form data
@@ -41,15 +41,12 @@
                     console.log("Yes working!");
                     if(xhr.responseText == "Success!") {
                         document.getElementById("message").innerHTML=xhr.responseText;
-                        $("#message").css("color", "green");
                         setTimeout(window.location.href='shopping.html',4000);
 
                     } else {
                         console.log(xhr.responseText);
                         console.log("Unsuccessful login");
-                        document.getElementById("message").innerHTML ="Try Again!";
-                        $("#signinForm").trigger("reset");
-                        $("#message").css("color",'red');
+                        document.getElementById("message").innerHTML = xhr.responseText;
                     }
             };
         }
@@ -70,11 +67,10 @@
     </nav>
     <div class="content">
 
-        <form id="signinForm" onsubmit="handleLogin(event)"  style="width: 50%;height:50%;">
-            <fieldset style="height:580px;border-radius: 12px;border: 8px solid;">
-          
+        <form id="signinForm" onsubmit="handleLogin(event)"  style="width: 50%;height: 50%;">
+            <fieldset style="height:550px;">
                 <h1 style="font-size: 70px;margin-bottom: 80px;">Sign In</h1>
-                   <div style="display: flex;justify-content: center;margin-bottom:20px;">
+                <div style="display: flex;justify-content: center;margin-bottom:20px;">
                     <label for="signinLoginId" style="font-size: 40px;">Username:</label>
                     <input type="text" id="signinLoginId" name="loginId" placeholder="Username" required style="margin: 10px;" >
                 </div>
@@ -88,11 +84,11 @@
                     <div>
                     <input type="checkbox" id="signinRememberMe">
                     <label for="signinRememberMe">Remember Me</label>
-                    </div>
+                     </div>
                     <button type="submit">Sign In</button>
                 </div>
+                <h1 id="message"></h1>
             </fieldset>
-            <h1 id="message" style="text-align: center;font-size: 52px;"></h1>
         </form>
     </div>
 </body>

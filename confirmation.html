@@ -10,51 +10,22 @@
     <script src="scripts.js"></script>
     <script>
         $(document).ready(function() {
-            if (window.location.pathname.includes("confirmation.html")) {
-                let latestOrderKey = Object.keys(localStorage).filter(k => k.startsWith("order_")).pop();
-                let order = JSON.parse(localStorage.getItem(latestOrderKey));
-                    console.log("Total price: ",order["Total_Price"]);
-                    
-                   
-                    let total_price=order["Total_Price"];
-                    
-                     // Create a new XMLHttpRequest object
-                    var xhr = new XMLHttpRequest();
-
-                            
-                    xhr.open("POST", "confirmation.php", true);
-
-                    // Set content type to send data as form data
-                    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-
-                    // Open a GET request to the PHP script
-                    var params = "total_price=" + encodeURIComponent(total_price);
-
-                    // Send the data to the PHP script via GET
-                    xhr.send(params);
-
-                    // Handle the response when it's received
-                    xhr.onload = function() {
-                        console.log(xhr.responseText);
-                        if (xhr.status === 200) {
-                            console.log("Yes working!");
-                            if(xhr.responseText == "Success!") {
-                                    document.getElementById("message").innerHTML="Thank you for your order!";
-                                    document.getElementById("message").style.color = "green";
-                                 
-                            } else {
-                                console.log("Unsuccessful login");
-                                document.getElementById("message").innerHTML="Something went wrong!";
-                                document.getElementById("message").style.color = "red";
-                                
-                               
-                            }
-                    }
-
-            };
-            }
-        });
-        
+    if (window.location.pathname.includes("confirmation.html")) {
+        let latestOrderKey = Object.keys(localStorage).filter(k => k.startsWith("order_")).pop();
+        let order = JSON.parse(localStorage.getItem(latestOrderKey));
+        $("#confirmation-details").html(
+            `<p id='order_id'>Order-Id: ${order["Order-Id"]}</p>` +
+            `<p id='total_price'>Total: $${order["Total_Price"].toFixed(2)}</p>` +
+            `<p id='delv'>Delivery: ${order["Date-received"]} ${$("#Delivery-Time").val()}</p>` +
+            `<p id='truck_id'>Truck-Id: ${order["Truck-Id"]}</p>`
+        );
+    }
+});
+         setTimeout(function() {
+            console.log("Order ID :", $("#order_id").html());
+            console.log("Total price: ",$("#total_price").html());
+            console.log("Truck ID: ",$("#truck_id").html());
+        }, 100);
     </script>
 </head>
 <body>
@@ -64,16 +35,15 @@
             <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
             <li><a href="about.html"><i class="fas fa-info-circle"></i> About Us</a></li>
             <li><a href="signup.html"><i class="fas fa-user-plus"></i> Sign Up</a></li>
+            <li><a href="signin.html"><i class="fas fa-sign-in-alt"></i> Sign In</a></li>
             <li><a href="shopping.html"><i class="fas fa-shopping-cart"></i> Shopping Cart</a></li>
             <li><a href="#"><i class="fas fa-concierge-bell"></i> Types of Services</a></li>
-            <li><a href="signin.html"><i class="fas fa-check"></i>Sign Out</a></li>
         </ul>
     </nav>
     <div class="content">
         <h1><i class="fas fa-check-circle"></i> Order Confirmed!</h1>
         <div id="confirmation-details"></div>
         <button onclick="window.location.href='index.html'"><i class="fas fa-home"></i> Back to Home</button>
-        <h1 id="message"></h1>
     </div>
 </body>
 </html>
