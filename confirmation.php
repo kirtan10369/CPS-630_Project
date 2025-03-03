@@ -3,6 +3,15 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
+// Check if the User_Id cookie is set
+if (isset($_COOKIE['User_Id'])) {
+    // Retrieve the User_Id from the cookie
+    $userId = $_COOKIE['User_Id'];
+    // echo "Welcome, User ID: " . htmlspecialchars($userId); // Display User_Id securely
+} else {
+//     echo "You are not logged in. Please <a href='signin.php'>log in</a>.";
+ }
+
 // Check if 'total_price' is set
 if (isset($_POST['total_price'])) {
     $total_price = $_POST['total_price'];
@@ -17,8 +26,8 @@ if (isset($_POST['total_price'])) {
     }
 
     // Prepare the SQL statement to insert data for Total_Price and Date_Issued
-    $stmt = $conn->prepare('INSERT INTO orders (Total_Price, Date_Issued) VALUES (?, ?)');
-    $stmt->bind_param("ds", $total_price, $date_issued); // 'd' for decimal and 's' for string
+    $stmt = $conn->prepare('INSERT INTO orders (User_Id,Total_Price, Date_Issued) VALUES (?,?,?)');
+    $stmt->bind_param("ids",$userId, $total_price, $date_issued); // 'd' for decimal and 's' for string
 
     // Execute the query and check if it's successful
     if ($stmt->execute()) {
