@@ -67,10 +67,10 @@ function removeFromCart(Item_Id) {
         updateCartDisplay();
     }
 }
-
+let total = 0;
 function updateCartDisplay() {
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
-    let total = 0;
+    
     $("#cart-items").html("");
     if (cart.length === 0) {
         $("#cart-items").html("<p class='text-muted'>Your cart is empty.</p>");
@@ -101,7 +101,7 @@ function processCheckout() {
         "Date-issued": new Date().toISOString().split("T")[0],
         "Date-received": $("#Date-received").val(),
         "Delivery-Time": $("#Delivery-Time").val(),
-        "Total_Price": Total_Price,
+        "Total_Price": total,
         "User-Id": userId,
         "Trip-Id": Date.now() + 1,
         "Source-Address": $("#Source-Code").val(),

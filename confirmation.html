@@ -9,26 +9,33 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="scripts.js"></script>
     <script>
-        $(document).ready(function() {
-    if (window.location.pathname.includes("confirmation.html")) {
-        let latestOrderKey = Object.keys(localStorage).filter(k => k.startsWith("order_")).pop();
-        let order = JSON.parse(localStorage.getItem(latestOrderKey));
-        $("#confirmation-details").html(
-            `<p id='order_id'>Order-Id: ${order["Order-Id"]}</p>` +
-            `<p id='total_price'>Total: $${order["Total_Price"].toFixed(2)}</p>` +
-            `<p id='delv'>Delivery: ${order["Date-received"]} ${$("#Delivery-Time").val()}</p>` +
-            `<p id='truck_id'>Truck-Id: ${order["Truck-Id"]}</p>`
-        );
-    }
-});
-         setTimeout(function() {
-            console.log("Order ID :", $("#order_id").html());
-            console.log("Total price: ",$("#total_price").html());
-            console.log("Truck ID: ",$("#truck_id").html());
-        }, 100);
+        $(document).ready(function () {
+            if (window.location.pathname.includes("confirmation.html")) {
+                let latestOrderKey = Object.keys(localStorage).filter(k => k.startsWith("order_")).pop();
+                let order = latestOrderKey ? JSON.parse(localStorage.getItem(latestOrderKey)) : null;
+    
+                if (order) {
+                    // Append order details inside the correct div
+                    $("#confirmation-details").html(`
+                        <div class="card bg-light p-4 shadow-lg">
+                            <h4 class="text-success fw-bold mb-3"><i class="fas fa-receipt"></i> Order Summary</h4>
+                            <hr>
+                            <p class="text-dark"><strong>Order ID:</strong> <span class="fw-bold text-warning">${order["Order-Id"]}</span></p>
+                            <p class="text-dark"><strong>Date Issued:</strong> <span class="fw-bold">${order["Date-issued"]}</span></p>
+                            <p class="text-dark"><strong>Total Price:</strong> <span class="fw-bold text-info">$${order["Total_Price"].toFixed(2)}</span></p>
+                            <p class="text-dark"><strong>Truck ID:</strong> <span class="fw-bold">${order["Truck-Id"]}</span></p>
+                        </div>
+                    `);
+                } else {
+                    $("#confirmation-details").html(`<p class="text-danger fw-bold">No order details found.</p>`);
+                }
+    
+                // Debugging in console
+                console.log("Order Details:", order);
+            }
+        });
     </script>
 </head>
 <body>
@@ -55,7 +62,7 @@
     <div class="container mt-5 mb-5">
         <div class="card mx-auto shadow-lg" style="max-width: 700px;">
             <div class="card-header bg-success text-white text-center">
-                <h1 class="mb-0"><i class="fas fa-check-circle"></i> Order Confirmed!</h1>
+                <h1 class="mb-0 text-white"><i class="fas fa-check-circle"></i> Order Confirmed!</h1>
             </div>
             <div class="card-body">
                 <div class="text-center mb-4">
@@ -63,10 +70,8 @@
                     <p class="lead mt-2">Thank you for your order! Your sneakers are on their way.</p>
                 </div>
                 <h3 class="text-primary"><i class="fas fa-info-circle"></i> Order Overview</h3>
-                <div id="order-details" class="mb-4">
-                    <p><strong>Order ID:</strong> <span id="order-id"></span></p>
-                    <p><strong>Date Placed:</strong> <span id="date-issued"></span></p>
-                    <p><strong>Total Amount:</strong> $<span id="total-price"></span></p>
+                <div id="confirmation-details" class="mb-4">
+                   
                 </div>
                 <h3 class="text-primary"><i class="fas fa-map-marker-alt"></i> Delivery Details</h3>
                 <div id="delivery-details" class="mb-4">
