@@ -1,7 +1,7 @@
 $(document).ready(function() {
-    $(".card").draggable({ revert: "invalid", helper: "clone" });
+    $("#image").draggable({ revert: "invalid", helper: "clone" });
     $("#cart").droppable({
-        accept: ".card",
+        accept: "#image",
         drop: function(event, ui) {
             var Item_Id = ui.draggable.find(".add-to-cart").data("id");
             addToCart(Item_Id);
@@ -28,7 +28,7 @@ $(document).ready(function() {
 
         $("#source-address").text(order["Source-Address"] || "N/A");
         $("#destination-address").text(order["Destination-Address"] || "N/A");
-        $("#delivery-date-time").text(`${order["Date-received"]} ${order["Delivery-Time"] || $("#Delivery-Time").val()}`);
+        $("#delivery-date-time").text(`${order["Date-received"]} at ${order["Delivery-Time"] || "N/A"}`);
         $("#truck-id").text(order["Truck-Id"]);
 
         cart.forEach(id => {
@@ -36,7 +36,7 @@ $(document).ready(function() {
             if (item) {
                 $("#order-items").append(
                     `<div class="list-group-item d-flex justify-content-between align-items-center">
-                        <span>${item.Item_name}</span>
+                        <span><img src="${item.Image}" alt="${item.Item_name}" class="cart-item-img me-2">${item.Item_name}</span>
                         <span>$${item.Price.toFixed(2)}</span>
                     </div>`
                 );
@@ -46,9 +46,9 @@ $(document).ready(function() {
 });
 
 const items = {
-    1: { Item_Id: 1, Item_name: "Adidas", Price: 79, Department_Code: "SNEAKERS" },
-    2: { Item_Id: 2, Item_name: "Nike", Price: 99, Department_Code: "SNEAKERS" },
-    3: { Item_Id: 3, Item_name: "New Balance", Price: 89, Department_Code: "SNEAKERS" }
+    1: { Item_Id: 1, Item_name: "Adidas", Price: 79, Department_Code: "SNEAKERS", Image: "Adidas.jpg" },
+    2: { Item_Id: 2, Item_name: "Nike", Price: 99, Department_Code: "SNEAKERS", Image: "Nike.jpeg" },
+    3: { Item_Id: 3, Item_name: "New Balance", Price: 89, Department_Code: "SNEAKERS", Image: "New-balance.jpeg" }
 };
 
 function addToCart(Item_Id) {
@@ -80,7 +80,7 @@ function updateCartDisplay() {
             if (item) {
                 $("#cart-items").append(
                     `<div class="cart-item d-flex justify-content-between align-items-center mb-2">
-                        <span>${item.Item_name} - $${item.Price}</span>
+                        <span><img src="${item.Image}" alt="${item.Item_name}" class="cart-item-img me-2">${item.Item_name} - $${item.Price}</span>
                         <button class="btn btn-danger btn-sm remove-from-cart" data-id="${item.Item_Id}"><i class="fas fa-trash"></i> Remove</button>
                     </div>`
                 );

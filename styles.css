@@ -29,6 +29,12 @@ body {
     height: 100px;
 }
 
+.cart-item-img {
+    width: 30px;
+    height: 30px;
+    vertical-align: middle;
+}
+
 #cart {
     margin-bottom: 20px;
 }
