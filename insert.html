@@ -12,22 +12,17 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="scripts.js"></script>
     <script>
-        $(document).ready(function() {
-            
+       
 
             $("#insertForm").on("submit", function(event) {
                 event.preventDefault();
-                let formData = {
-                    itemId: $("#itemId").val(),
-                    itemName: $("#itemName").val(),
-                    price: $("#price").val(),
-                    madeIn: $("#madeIn").val(),
-                    deptCode: $("#deptCode").val()
-                };
+                let formData = new FormData(this);
                 $.ajax({
                     url: "insert.php",
                     type: "POST",
                     data: formData,
+                    processData: false,
+                    contentType: false,
                     success: function(response) {
                         $("#insertResult").text(response).css("color", response === "Success!" ? "green" : "red");
                     },
@@ -69,7 +64,7 @@
         <h1 class="text-center text-primary mb-4"><i class="fas fa-plus"></i> Insert New Sneaker</h1>
         <div class="card mx-auto" style="max-width: 500px;">
             <div class="card-body">
-                <form id="insertForm">
+                <form id="insertForm" enctype="multipart/form-data">
                     <div class="mb-3">
                         <label for="itemId" class="form-label"><i class="fas fa-id-badge"></i> Item ID</label>
                         <input type="number" class="form-control" id="itemId" name="itemId" placeholder="e.g., 4" required>
@@ -81,6 +76,10 @@
                     <div class="mb-3">
                         <label for="price" class="form-label"><i class="fas fa-dollar-sign"></i> Price</label>
                         <input type="number" class="form-control" id="price" name="price" placeholder="e.g., 79" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="image" class="form-label"><i class="fas fa-image"></i> Image</label>
+                        <input type="file" class="form-control" id="image" name="image" accept="image/*" required>
                     </div>
                     <div class="mb-3">
                         <label for="madeIn" class="form-label"><i class="fas fa-globe"></i> Made In</label>
