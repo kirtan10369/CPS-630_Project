@@ -40,20 +40,22 @@
 
             // Handle the response when it's received
             xhr.onload = function() {
-                console.log(xhr.responseText);
+                console.log(xhr.responseText); // Log the response for debugging
                 if (xhr.status === 200) {
-                    console.log("Yes working!");
-                    if(xhr.responseText == "Success!") {
-                        document.getElementById("message").innerHTML=xhr.responseText;
-                        setTimeout(window.location.href='shopping.html',4000);
-
+                    if (xhr.responseText === "admin") {
+                        // Admin login, set admin in localStorage and redirect to admin page
+                        localStorage.setItem('loggedIn', 'admin');
+                        window.location.href = 'admin.html';  // Redirect to the admin page
+                    } else if (xhr.responseText === "user") {
+                        // Regular user login, set user in localStorage and redirect to shopping page
+                        localStorage.setItem('loggedIn', 'user');
+                        window.location.href = 'shopping.html';  // Redirect to the shopping page
                     } else {
-                        console.log(xhr.responseText);
                         console.log("Unsuccessful login");
-                        document.getElementById("message").innerHTML = xhr.responseText;
+                        document.getElementById("message").innerHTML = "Failed!";
                     }
+                }
             };
-        }
     }
     </script>
 </head>

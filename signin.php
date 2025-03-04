@@ -16,14 +16,19 @@ $stmt->execute();
 $res = $stmt->get_result();
 
 if ($res->num_rows > 0) {
-    echo "Success!";
-    // Set loggedIn and redirect based on user
-    if ($loginId === "admin") {
-        echo "<script>localStorage.setItem('loggedIn', 'admin'); window.location.href = 'admin.html';</script>";
+    // Fetch the user data
+    $row = $res->fetch_assoc();
+    
+    // Check if the user is an admin (assuming there's a role column)
+    if ($row['Login_ID'] === 'admin') {
+        // Admin login
+        echo "admin"; // Send "admin" response to client-side script
     } else {
-        echo "<script>localStorage.setItem('loggedIn', '$loginId'); window.location.href = 'shopping.html';</script>";
+        // Regular user login
+        echo "user"; // Send "user" response to client-side script
     }
 } else {
+    // Failed login
     echo "Failed!";
 }
 

@@ -1,8 +1,14 @@
 $(document).ready(function() {
-    $(".sneaker-img").draggable({ 
-        revert: "invalid", 
-        helper: "clone",
-        cursor: "move"
+    // Load all sneakers initially
+    loadSneakers("");
+
+    // Make sneaker images draggable
+    $("#sneakerList").on("mouseenter", ".sneaker-img", function() {
+        $(this).draggable({ 
+            revert: "invalid", 
+            helper: "clone",
+            cursor: "move"
+        });
     });
 
     // Make cart droppable
@@ -15,7 +21,7 @@ $(document).ready(function() {
     });
 
     // Add to cart button click
-    $(".add-to-cart").click(function() {
+    $("#sneakerList").on("click", ".add-to-cart", function() {
         var Item_Id = $(this).data("id");
         addToCart(Item_Id);
     });
@@ -25,8 +31,20 @@ $(document).ready(function() {
         var Item_Id = $(this).data("id");
         removeFromCart(Item_Id);
     });
+
     updateCartDisplay();
 
+    // Search functionality
+    $("#searchForm").on("submit", function(event) {
+        event.preventDefault();
+        let searchTerm = $("#searchInput").val();
+        loadSneakers(searchTerm);
+    });
+
+    $("#searchInput").on("input", function() {
+        let searchTerm = $(this).val();
+        loadSneakers(searchTerm);
+    });
 
     if (window.location.pathname.includes("confirmation.html")) {
         let latestOrderKey = Object.keys(localStorage).filter(k => k.startsWith("order_")).pop();
@@ -41,6 +59,7 @@ $(document).ready(function() {
         $("#destination-address").text(order["Destination-Address"] || "N/A");
         $("#delivery-date-time").text(`${order["Date-received"]} at ${order["Delivery-Time"] || "N/A"}`);
         $("#truck-id").text(order["Truck-Id"]);
+
         cart.forEach(id => {
             let item = items[id];
             if (item) {
@@ -53,13 +72,19 @@ $(document).ready(function() {
             }
         });
     }
+
+    // Bootstrap form validation for payment form
+    $('#paymentForm').on('submit', function(event) {
+        if (!this.checkValidity()) {
+            event.preventDefault();
+            event.stopPropagation();
+            $(this).addClass('was-validated');
+        }
+    });
 });
 
-const items = {
-    1: { Item_Id: 1, Item_name: "Adidas", Price: 79, Department_Code: "SNEAKERS", Image: "Adidas.jpg" },
-    2: { Item_Id: 2, Item_name: "Nike", Price: 99, Department_Code: "SNEAKERS", Image: "Nike.jpeg" },
-    3: { Item_Id: 3, Item_name: "New Balance", Price: 89, Department_Code: "SNEAKERS", Image: "New-balance.jpeg" }
-};
+// Dynamic items object populated from database
+const items = {};
 
 function addToCart(Item_Id) {
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -95,6 +120,8 @@ function updateCartDisplay() {
                     </div>`
                 );
                 total += item.Price;
+            } else {
+                console.warn(`Item with ID ${id} not found in items object`);
             }
         });
     }
@@ -164,15 +191,12 @@ function processPayment(event) {
     let expiry = $("#expiry").val();
     let cvv = $("#cvv").val();
 
-    // Define regex patterns
     const cardPattern = /^\d{4}-\d{4}-\d{4}-\d{4}$/;
     const expiryPattern = /^(0[1-9]|1[0-2])\/\d{2}$/;
     const cvvPattern = /^\d{3,4}$/;
 
-    // Reset error message
     $("#payment-error").text("");
 
-    // Validate inputs
     if (!cardPattern.test(cardNumber)) {
         $("#payment-error").text("Invalid card number. Use format xxxx-xxxx-xxxx-xxxx (e.g., 1234-5678-9012-3456).");
         $("#card-number").addClass("is-invalid");
@@ -189,7 +213,6 @@ function processPayment(event) {
         return;
     }
 
-    // If all validations pass, proceed with payment
     let order = JSON.parse(localStorage.getItem("currentOrder"));
     order["Payment-Code"] = "CC-" + Date.now();
     order["Receipt-Id"] = Date.now() + 2;
@@ -200,3 +223,47 @@ function processPayment(event) {
     window.location.href = "confirmation.html";
 }
 
+// Load sneakers from database
+function loadSneakers(searchTerm) {
+    console.log("Loading sneakers with search term:", searchTerm);
+    $.get("search.php", { q: searchTerm }, function(data) {
+        console.log("Search response:", data);
+        $("#sneakerList").html("");
+        if (data.error) {
+            $("#sneakerList").html(`<p class='text-danger text-center'>Error: ${data.error}</p>`);
+            console.error("Search error:", data.error);
+        } else if (data.length === 0) {
+            $("#sneakerList").html("<p class='text-muted text-center'>No sneakers found for '${searchTerm}'.</p>");
+        } else {
+            data.forEach(item => {
+                items[item.Item_Id] = { // Update items object with database data
+                    Item_Id: item.Item_Id,
+                    Item_name: item.Item_name,
+                    Price: item.Price,
+                    Image: item.Image
+                };
+                $("#sneakerList").append(
+                    `<div class="col-md-4 col-sm-6 sneaker-item" data-name="${item.Item_name}">
+                        <div class="card h-100 text-center">
+                            <img src="${item.Image}" class="card-img-top mx-auto mt-3 sneaker-img" data-id="${item.Item_Id}" alt="${item.Item_name}">
+                            <div class="card-body">
+                                <h5 class="card-title">${item.Item_name}</h5>
+                                <p class="card-text">$${item.Price}</p>
+                                <button class="btn btn-primary add-to-cart" data-id="${item.Item_Id}"><i class="fas fa-cart-plus"></i> Add to Cart</button>
+                            </div>
+                        </div>
+                    </div>`
+                );
+            });
+            console.log("Loaded items:", items);
+        }
+    }, "json").fail(function(xhr, status, error) {
+        $("#sneakerList").html(`<p class='text-danger text-center'>Failed to load sneakers: ${status} - ${error}. Check console.</p>`);
+        console.error("AJAX error details:", {
+            status: status,
+            error: error,
+            responseText: xhr.responseText,
+            statusCode: xhr.status
+        });
+    });
+}
