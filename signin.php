@@ -2,36 +2,31 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-$conn=mysqli_connect("localhost","root","","OSP");
-if ($conn->connect_error){
-  die("Connection failed: ".$conn->connect_error);
+$conn = mysqli_connect("localhost", "root", "", "OSP");
+if (!$conn) {
+    die(mysqli_connect_error());
 }
 
-// Prepare the SQL query
-$sql = "SELECT Login_ID, Passwd, User_Id FROM User WHERE Login_ID=? AND Passwd=?";
+$loginId = $_GET['loginID'] ?? '';
+$passwd = $_GET['passwd'] ?? '';
+$sql = "SELECT Login_ID, Passwd FROM User WHERE Login_ID = ? AND Passwd = ?";
 $stmt = $conn->prepare($sql);
-
-// Bind parameters (assuming the data is passed via GET)
-$stmt->bind_param("ss", $_GET['loginID'], $_GET['passwd']);
+$stmt->bind_param("ss", $loginId, $passwd);
 $stmt->execute();
 $res = $stmt->get_result();
 
-// Check if any results were returned
 if ($res->num_rows > 0) {
-    // If credentials are correct, fetch the User_Id
-    $row = $res->fetch_assoc();
-    $userId = $row['User_Id'];
-
-    // Set the User_Id cookie for 1 day (86400 seconds)
-    setcookie("User_Id", $userId, time() + 86400, "/");
-
-    // Respond with success
-    $response = "Success!";
+    echo "Success!";
+    // Set loggedIn and redirect based on user
+    if ($loginId === "admin") {
+        echo "<script>localStorage.setItem('loggedIn', 'admin'); window.location.href = 'admin.html';</script>";
+    } else {
+        echo "<script>localStorage.setItem('loggedIn', '$loginId'); window.location.href = 'shopping.html';</script>";
+    }
 } else {
-    // If credentials are incorrect
-    $response = "Failed!";
+    echo "Failed!";
 }
 
-// Echo the response back to the client
-echo $response;
+$stmt->close();
+$conn->close();
 ?>
