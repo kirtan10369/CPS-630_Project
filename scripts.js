@@ -27,15 +27,6 @@ $(document).ready(function() {
     });
     updateCartDisplay();
 
-    // Search functionality
-    $("#searchForm").on("submit", function(event) {
-        event.preventDefault();
-        filterSneakers();
-    });
-
-    $("#searchInput").on("input", function() {
-        filterSneakers();
-    });
 
     if (window.location.pathname.includes("confirmation.html")) {
         let latestOrderKey = Object.keys(localStorage).filter(k => k.startsWith("order_")).pop();
@@ -208,3 +199,4 @@ function processPayment(event) {
     localStorage.removeItem("currentOrder");
     window.location.href = "confirmation.html";
 }
+
