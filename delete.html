@@ -3,15 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OSP - Sneaker Shopping</title>
+    <title>OSP - Delete Item</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="scripts.js"></script>
+    <script>
+        $(document).ready(function() {
+
+            $("#deleteForm").on("submit", function(event) {
+                event.preventDefault();
+                let itemId = $("#itemId").val();
+                $.ajax({
+                    url: "delete.php",
+                    type: "POST",
+                    data: { itemId: itemId },
+                    success: function(response) {
+                        $("#deleteResult").text(response).css("color", response === "Success!" ? "green" : "red");
+                    },
+                    error: function(xhr, status, error) {
+                        $("#deleteResult").text("Error: " + error).css("color", "red");
+                    }
+                });
+            });
+        });
+    </script>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
@@ -29,6 +48,7 @@
                     <li class="nav-item"><a class="nav-link" href="signup.html"><i class="fas fa-user-plus"></i> Sign Up</a></li>
                     <li class="nav-item"><a class="nav-link" href="shopping.html"><i class="fas fa-shopping-cart"></i> Shopping Cart</a></li>
                     
+                    <li class="nav-item"><a class="nav-link" href="admin.html"><i class="fas fa-user-shield"></i> Admin</a></li>
                     <li class="nav-item"><a class="nav-link" href="signin.html"><i class="fas fa-sign-out-alt"></i> Sign Out</a></li>
                 </ul>
                 <form class="d-flex" id="searchForm">
@@ -39,47 +59,17 @@
         </div>
     </nav>
     <div class="container mt-5">
-        <h1 class="text-center text-primary mb-4"><i class="fas fa-store"></i> Sneaker Shopping</h1>
-        <div class="row justify-content-center g-4">
-            <div class="col-md-4 col-sm-6">
-                <div class="card h-100 text-center">
-                    <img src="Adidas.jpg" class="card-img-top mx-auto mt-3 sneaker-img" data-id="1" alt="Adidas">
-                    <div class="card-body">
-                        <h5 class="card-title">Adidas</h5>
-                        <p class="card-text">$79</p>
-                        <button class="btn btn-primary add-to-cart" data-id="1"><i class="fas fa-cart-plus"></i> Add to Cart</button>
+        <h1 class="text-center text-primary mb-4"><i class="fas fa-trash"></i> Delete Sneaker</h1>
+        <div class="card mx-auto" style="max-width: 500px;">
+            <div class="card-body">
+                <form id="deleteForm">
+                    <div class="mb-3">
+                        <label for="itemId" class="form-label"><i class="fas fa-id-badge"></i> Item ID</label>
+                        <input type="number" class="form-control" id="itemId" name="itemId" placeholder="e.g., 1" required>
                     </div>
-                </div>
-            </div>
-            <div class="col-md-4 col-sm-6">
-                <div class="card h-100 text-center">
-                    <img src="Nike.jpeg" class="card-img-top mx-auto mt-3 sneaker-img" data-id="2" alt="Nike">
-                    <div class="card-body">
-                        <h5 class="card-title">Nike</h5>
-                        <p class="card-text">$99</p>
-                        <button class="btn btn-primary add-to-cart" data-id="2"><i class="fas fa-cart-plus"></i> Add to Cart</button>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 col-sm-6">
-                <div class="card h-100 text-center">
-                    <img src="New-balance.jpeg" class="card-img-top mx-auto mt-3 sneaker-img" data-id="3" alt="New Balance">
-                    <div class="card-body">
-                        <h5 class="card-title">New Balance</h5>
-                        <p class="card-text">$89</p>
-                        <button class="btn btn-primary add-to-cart" data-id="3"><i class="fas fa-cart-plus"></i> Add to Cart</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="card mt-5" id="cart">
-            <div class="card-header">
-                <h2 class="text-primary"><i class="fas fa-shopping-cart"></i> Shopping Cart</h2>
-            </div>
-            <div class="card-body" id="cart-items"></div>
-            <div class="card-footer">
-                <p>Total Items: <span id="cart-count">0</span> | Total: $<span id="cart-total">0.00</span></p>
-                <button class="btn btn-success" onclick="window.location.href='checkout.html'"><i class="fas fa-check"></i> Proceed to Checkout</button>
+                    <button type="submit" class="btn btn-danger w-100"><i class="fas fa-trash"></i> Delete</button>
+                </form>
+                <p id="deleteResult" class="text-center mt-3"></p>
             </div>
         </div>
     </div>
