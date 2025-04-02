@@ -1,9 +1,12 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
-// Set JSON header early
+// Force JSON output
 header('Content-Type: application/json');
+
+// Suppress display errors to avoid HTML output; log them instead
+error_reporting(E_ALL);
+ini_set('display_errors', 0); // Disable display
+ini_set('log_errors', 1); // Enable logging
+ini_set('error_log', '/Applications/XAMPP/xamppfiles/logs/php_error_log'); // Log file
 
 $conn = mysqli_connect("localhost", "root", "", "OSP");
 if (!$conn) {
@@ -46,5 +49,4 @@ echo json_encode($items);
 
 $stmt->close();
 $conn->close();
-
 ?>

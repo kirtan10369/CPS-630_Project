@@ -13,7 +13,7 @@
     <script src="scripts.js"></script>
     <script>
         
-
+	$(document).ready(function() {
             $("#updateForm").on("submit", function(event) {
                 event.preventDefault();
                 let formData = new FormData(this);
@@ -77,10 +77,7 @@
                         <label for="price" class="form-label"><i class="fas fa-dollar-sign"></i> Price</label>
                         <input type="number" class="form-control" id="price" name="price" placeholder="e.g., 79">
                     </div>
-                    <div class="mb-3">
-                        <label for="image" class="form-label"><i class="fas fa-image"></i> Image</label>
-                        <input type="file" class="form-control" id="image" name="image" accept="image/*">
-                    </div>
+                    
                     <div class="mb-3">
                         <label for="madeIn" class="form-label"><i class="fas fa-globe"></i> Made In</label>
                         <input type="text" class="form-control" id="madeIn" name="madeIn" placeholder="e.g., Germany">

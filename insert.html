@@ -13,7 +13,7 @@
     <script src="scripts.js"></script>
     <script>
        
-
+		$(document).ready(function() {
             $("#insertForm").on("submit", function(event) {
                 event.preventDefault();
                 let formData = new FormData(this);
@@ -24,14 +24,14 @@
                     processData: false,
                     contentType: false,
                     success: function(response) {
-                        $("#insertResult").text(response).css("color", response === "Success!" ? "green" : "red");
+                        $("#insertResult").text(response).css("color", response === "Success" ? "green" : "red");
                     },
                     error: function(xhr, status, error) {
                         $("#insertResult").text("Error: " + error).css("color", "red");
                     }
                 });
             });
-        });
+		});
     </script>
 </head>
 <body>
@@ -49,7 +49,7 @@
                     <li class="nav-item"><a class="nav-link" href="about.html"><i class="fas fa-info-circle"></i> About Us</a></li>
                     <li class="nav-item"><a class="nav-link" href="signup.html"><i class="fas fa-user-plus"></i> Sign Up</a></li>
                     <li class="nav-item"><a class="nav-link" href="shopping.html"><i class="fas fa-shopping-cart"></i> Shopping Cart</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#"><i class="fas fa-concierge-bell"></i> Services</a></li>
+                    
                     <li class="nav-item"><a class="nav-link" href="admin.html"><i class="fas fa-user-shield"></i> Admin</a></li>
                     <li class="nav-item"><a class="nav-link" href="signin.html"><i class="fas fa-sign-out-alt"></i> Sign Out</a></li>
                 </ul>
@@ -77,10 +77,8 @@
                         <label for="price" class="form-label"><i class="fas fa-dollar-sign"></i> Price</label>
                         <input type="number" class="form-control" id="price" name="price" placeholder="e.g., 79" required>
                     </div>
-                    <div class="mb-3">
-                        <label for="image" class="form-label"><i class="fas fa-image"></i> Image</label>
-                        <input type="file" class="form-control" id="image" name="image" accept="image/*" required>
-                    </div>
+                    
+                    
                     <div class="mb-3">
                         <label for="madeIn" class="form-label"><i class="fas fa-globe"></i> Made In</label>
                         <input type="text" class="form-control" id="madeIn" name="madeIn" placeholder="e.g., Germany" required>
